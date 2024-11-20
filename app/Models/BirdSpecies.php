@@ -37,6 +37,6 @@ class BirdSpecies extends Model
 
     public function speciesStatuses(): BelongsToMany
     {
-        return $this->belongsToMany(SpeciesStatus::class)->withPivot('created_at', 'updated_at');
+        return $this->belongsToMany(SpeciesStatus::class);
     }
 }

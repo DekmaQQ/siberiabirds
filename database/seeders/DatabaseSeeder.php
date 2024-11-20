@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\BirdDetection;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -27,7 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call(BirdFamilySeeder::class);
         $this->call(BirdGenusSeeder::class);
         $this->call(BirdSpeciesSeeder::class);
-        $this->call(BirdSpeciesStatusesSeeder::class);
+        $this->call(BirdSpeciesSpeciesStatusSeeder::class);
         $this->call(BirdDetectionSeeder::class);
     }
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\SpeciesPopulationStatus;
 use App\Http\Resources\SpeciesPopulationStatusResource;
-use App\Http\Resources\SpeciesPopulationStatusCollection;
 
 class SpeciesPopulationStatusController extends Controller
 {
@@ -16,7 +15,7 @@ class SpeciesPopulationStatusController extends Controller
     {
         $species_population_statuses = SpeciesPopulationStatus::all();
 
-        return new SpeciesPopulationStatusCollection($species_population_statuses);
+        return SpeciesPopulationStatusResource::collection($species_population_statuses);
     }
 
     /**

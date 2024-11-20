@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BirdFamilyResource extends JsonResource
+class BirdDetectionResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,10 +18,13 @@ class BirdFamilyResource extends JsonResource
             'id' => $this->id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'title' => $this->title,
-            'title_latin' => $this->title_latin,
-            'description' => $this->description,
-            'bird_order' => new BirdOrderResource($this->birdOrder)
+            'user' => $this->user,
+            'bird_species' => new BirdSpeciesResource($this->birdSpecies),
+            'latitude' => $this->latitude,
+            'longtitude' => $this->longitude,
+            'detection_timestamp' => $this->detection_timestamp,
+            'comment' => $this->comment,
+            'confirmed' => $this->confirmed
         ];
     }
 }

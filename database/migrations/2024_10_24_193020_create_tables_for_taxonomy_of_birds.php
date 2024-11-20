@@ -92,6 +92,6 @@ return new class extends Migration
         Schema::dropIfExists('bird_families');
         Schema::dropIfExists('bird_genera');
         Schema::dropIfExists('bird_species');
-        Schema::dropIfExists('bird_species_statuses');
+        Schema::dropIfExists('bird_species_species_status');
     }
 };

@@ -3,19 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\BirdOrder;
-use App\Http\Resources\BirdOrderResource;
+use App\Models\BirdGenus;
+use App\Http\Resources\BirdGenusResource;
 
-class BirdOrderController extends Controller
+class BirdGenusController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $bird_orders = BirdOrder::all();
+        $bird_genera = BirdGenus::all();
 
-        return BirdOrderResource::collection($bird_orders);
+        return BirdGenusResource::collection($bird_genera);
     }
 
     /**
@@ -39,9 +39,9 @@ class BirdOrderController extends Controller
      */
     public function show(int $id)
     {
-        $bird_order = BirdOrder::findOrFail($id);
+        $bird_genus = BirdGenus::findOrFail($id);
 
-        return new BirdOrderResource($bird_order);
+        return new BirdGenusResource($bird_genus);
     }
 
     /**

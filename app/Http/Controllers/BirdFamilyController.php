@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\BirdFamily;
 use App\Http\Resources\BirdFamilyResource;
-use App\Http\Resources\BirdFamilyCollection;
 
 class BirdFamilyController extends Controller
 {
@@ -14,7 +13,9 @@ class BirdFamilyController extends Controller
      */
     public function index()
     {
-        //
+        $bird_families = BirdFamily::all();
+
+        return BirdFamilyResource::collection($bird_families);
     }
 
     /**
