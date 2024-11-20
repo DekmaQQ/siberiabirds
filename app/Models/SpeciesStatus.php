@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class SpeciesStatus extends Model
 {
@@ -11,8 +12,8 @@ class SpeciesStatus extends Model
         'description'
     ];
 
-    public function birdSpecies()
+    public function birdSpecies(): BelongsToMany
     {
-        return $this->belongsToMany(BirdSpecies::class);
+        return $this->belongsToMany(BirdSpecies::class)->withPivot('created_at', 'updated_at');
     }
 }

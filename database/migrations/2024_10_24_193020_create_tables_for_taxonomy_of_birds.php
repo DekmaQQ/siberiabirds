@@ -71,7 +71,8 @@ return new class extends Migration
                   ->nullOnDelete();
         });
 
-        Schema::create('bird_species_species_statuses', function (Blueprint $table) {
+        Schema::create('bird_species_species_status', function (Blueprint $table) {
+            $table->timestamps();
             $table->foreignId('bird_species_id')
                   ->constrained()
                   ->cascadeOnDelete();

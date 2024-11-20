@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class BirdSpecies extends Model
 {
@@ -17,8 +20,23 @@ class BirdSpecies extends Model
         'species_population_status_id'
     ];
 
-    public function speciesStatuses()
+    public function birdGenus(): BelongsTo
     {
-        return $this->belongsToMany(SpeciesStatus::class);
+        return $this->belongsTo(BirdGenus::class);
+    }
+
+    public function speciesPopulationStatus(): BelongsTo
+    {
+        return $this->belongsTo(SpeciesPopulationStatus::class);
+    }
+
+    public function birdDetections(): HasMany
+    {
+        return $this->hasMany(BirdDetection::class);
+    }
+
+    public function speciesStatuses(): BelongsToMany
+    {
+        return $this->belongsToMany(SpeciesStatus::class)->withPivot('created_at', 'updated_at');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class SpeciesPopulationStatus extends Model
 {
@@ -10,4 +11,9 @@ class SpeciesPopulationStatus extends Model
         'title',
         'description'
     ];
+
+    public function birdSpecies(): HasMany
+    {
+        return $this->hasMany(BirdSpecies::class);
+    }
 }
