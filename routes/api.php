@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\BirdGenusController;
 use App\Http\Controllers\Api\BirdSpeciesController;
 use App\Http\Controllers\Api\BirdDetectionController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\UserRoleController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -38,3 +39,6 @@ Route::get('/bird_detections/{id}', [BirdDetectionController::class, 'show']);
 
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/users/{id}', [UserController::class, 'show']);
+
+Route::get('/user_roles', [UserRoleController::class, 'index']);
+Route::get('/user_roles/{id}', [UserRoleController::class, 'show']);
