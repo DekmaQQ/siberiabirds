@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\BirdOrder;
+use Illuminate\Support\Facades\DB;
 
 class BirdOrderSeeder extends Seeder
 {
@@ -13,6 +14,8 @@ class BirdOrderSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('bird_orders')->delete();
+
         BirdOrder::create(array(
             'title' => 'Ржанкообразные',
             'title_latin' => 'Charadriiformes',

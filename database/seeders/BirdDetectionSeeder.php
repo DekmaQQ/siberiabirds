@@ -17,6 +17,8 @@ class BirdDetectionSeeder extends Seeder
     {
         $faker = Factory::create();
 
+        DB::table('bird_detections')->delete();
+
         BirdDetection::create(array(
             'user_id' => DB::table('users')->where('email', 'test@example.com')->value('id'),
             'bird_species_id' => DB::table('bird_species')->where('title', 'Украшенный чибис')->value('id'),

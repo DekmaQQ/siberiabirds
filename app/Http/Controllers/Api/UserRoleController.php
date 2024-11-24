@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\SpeciesPopulationStatus;
-use App\Http\Resources\SpeciesPopulationStatusResource;
+use App\Models\UserRole;
+use App\Http\Resources\UserRoleResource;
 
-class SpeciesPopulationStatusController extends Controller
+class UserRoleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $species_population_statuses = SpeciesPopulationStatus::all();
+        $userRoles = UserRole::all();
 
-        return SpeciesPopulationStatusResource::collection($species_population_statuses);
+        return UserRoleResource::collection($userRoles);
     }
 
     /**
@@ -39,9 +40,9 @@ class SpeciesPopulationStatusController extends Controller
      */
     public function show(int $id)
     {
-        $species_status_population = SpeciesPopulationStatus::findOrFail($id);
-        
-        return new SpeciesPopulationStatusResource($species_status_population);
+        $userRole = UserRole::findOrFail($id);
+
+        return new UserRoleResource($userRole);
     }
 
     /**

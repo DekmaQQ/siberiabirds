@@ -88,10 +88,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bird_orders');
-        Schema::dropIfExists('bird_families');
-        Schema::dropIfExists('bird_genera');
-        Schema::dropIfExists('bird_species');
-        Schema::dropIfExists('bird_species_species_status');
+      Schema::dropIfExists('bird_species_species_status');
+      Schema::dropIfExists('bird_species');
+      Schema::dropIfExists('bird_genera');
+      Schema::dropIfExists('bird_families');
+      Schema::dropIfExists('bird_orders');
     }
 };

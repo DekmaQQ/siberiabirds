@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\SpeciesStatus;
+use Illuminate\Support\Facades\DB;
 
 class SpeciesStatusSeeder extends Seeder
 {
@@ -13,6 +14,8 @@ class SpeciesStatusSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('species_statuses')->delete();
+
         SpeciesStatus::create(array(
             'title' => 'залётный',
             // 'description' => ''

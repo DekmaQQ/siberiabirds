@@ -13,6 +13,8 @@ class BirdSpeciesSpeciesStatusSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('bird_species_species_status')->delete();
+
         DB::table('bird_species_species_status')->insert([
             'bird_species_id' => DB::table('bird_species')->where('title', 'Украшенный чибис')->value('id'),
             'species_status_id' => DB::table('species_statuses')->where('title', 'залётный')->value('id')

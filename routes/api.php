@@ -2,13 +2,14 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SpeciesStatusController;
-use App\Http\Controllers\SpeciesPopulationStatusController;
-use App\Http\Controllers\BirdOrderController;
-use App\Http\Controllers\BirdFamilyController;
-use App\Http\Controllers\BirdGenusController;
-use App\Http\Controllers\BirdSpeciesController;
-use App\Http\Controllers\BirdDetectionController;
+use App\Http\Controllers\Api\SpeciesStatusController;
+use App\Http\Controllers\Api\SpeciesPopulationStatusController;
+use App\Http\Controllers\Api\BirdOrderController;
+use App\Http\Controllers\Api\BirdFamilyController;
+use App\Http\Controllers\Api\BirdGenusController;
+use App\Http\Controllers\Api\BirdSpeciesController;
+use App\Http\Controllers\Api\BirdDetectionController;
+use App\Http\Controllers\Api\UserController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -34,3 +35,6 @@ Route::get('/bird_species/{id}', [BirdSpeciesController::class, 'show']);
 
 Route::get('/bird_detections', [BirdDetectionController::class, 'index']);
 Route::get('/bird_detections/{id}', [BirdDetectionController::class, 'show']);
+
+Route::get('/users', [UserController::class, 'index']);
+Route::get('/users/{id}', [UserController::class, 'show']);

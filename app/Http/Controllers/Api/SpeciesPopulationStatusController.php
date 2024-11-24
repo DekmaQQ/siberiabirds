@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\BirdDetection;
-use App\Http\Resources\BirdDetectionResource;
+use App\Models\SpeciesPopulationStatus;
+use App\Http\Resources\SpeciesPopulationStatusResource;
 
-class BirdDetectionController extends Controller
+class SpeciesPopulationStatusController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $bird_detections = BirdDetection::all();
+        $species_population_statuses = SpeciesPopulationStatus::all();
 
-        return BirdDetectionResource::collection($bird_detections);
+        return SpeciesPopulationStatusResource::collection($species_population_statuses);
     }
 
     /**
@@ -39,9 +40,9 @@ class BirdDetectionController extends Controller
      */
     public function show(int $id)
     {
-        $bird_detection = BirdDetection::findOrFail($id);
-
-        return new BirdDetectionResource($bird_detection);
+        $species_status_population = SpeciesPopulationStatus::findOrFail($id);
+        
+        return new SpeciesPopulationStatusResource($species_status_population);
     }
 
     /**

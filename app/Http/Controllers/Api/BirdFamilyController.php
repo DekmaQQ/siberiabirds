@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\SpeciesStatus;
-use App\Http\Resources\SpeciesStatusResource;
+use App\Models\BirdFamily;
+use App\Http\Resources\BirdFamilyResource;
 
-class SpeciesStatusController extends Controller
+class BirdFamilyController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $species_statuses = SpeciesStatus::all();
+        $bird_families = BirdFamily::all();
 
-        return SpeciesStatusResource::collection($species_statuses);
+        return BirdFamilyResource::collection($bird_families);
     }
 
     /**
@@ -39,9 +40,9 @@ class SpeciesStatusController extends Controller
      */
     public function show(int $id)
     {
-        $species_status = SpeciesStatus::findOrFail($id);
-        
-        return new SpeciesStatusResource($species_status);
+        $bird_family = BirdFamily::findOrFail($id);
+
+        return new BirdFamilyResource($bird_family);
     }
 
     /**

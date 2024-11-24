@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\BirdFamily;
-use App\Http\Resources\BirdFamilyResource;
+use App\Models\User;
+use App\Http\Resources\UserResource;
 
-class BirdFamilyController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $bird_families = BirdFamily::all();
+        $users = User::all();
 
-        return BirdFamilyResource::collection($bird_families);
+        return UserResource::collection($users);
     }
 
     /**
@@ -39,9 +40,9 @@ class BirdFamilyController extends Controller
      */
     public function show(int $id)
     {
-        $bird_family = BirdFamily::findOrFail($id);
+        $user = User::findOrFail($id);
 
-        return new BirdFamilyResource($bird_family);
+        return new UserResource($user);
     }
 
     /**
