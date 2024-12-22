@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'creator_id' => 1,
             'user_role_id' => DB::table('user_roles')->where('title', 'admin')->value('id')
         ]);
 

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('bird_detections', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('user_id')
-                  ->constrained();
+            $table->foreignId('agent_id')
+                  ->constrained('users');
             $table->foreignId('bird_species_id')
                   ->constrained();
             $table->decimal('latitude', 8, 6);

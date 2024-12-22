@@ -20,7 +20,7 @@ class BirdDetectionSeeder extends Seeder
         DB::table('bird_detections')->delete();
 
         BirdDetection::create(array(
-            'user_id' => DB::table('users')->where('email', 'test@example.com')->value('id'),
+            'agent_id' => DB::table('users')->where('email', 'test@example.com')->value('id'),
             'bird_species_id' => DB::table('bird_species')->where('title', 'Украшенный чибис')->value('id'),
             'latitude' => 52.09141,
             'longitude' => 108.6377,
@@ -30,7 +30,7 @@ class BirdDetectionSeeder extends Seeder
         ));
 
         BirdDetection::create(array(
-            'user_id' => DB::table('users')->where('email', 'test@example.com')->value('id'),
+            'agent_id' => DB::table('users')->where('email', 'test@example.com')->value('id'),
             'bird_species_id' => DB::table('bird_species')->where('title', 'Украшенный чибис')->value('id'),
             'latitude' => 51.642959,
             'longitude' => 107.714601,
@@ -40,7 +40,7 @@ class BirdDetectionSeeder extends Seeder
         ));
 
         BirdDetection::create(array(
-            'user_id' => DB::table('users')->where('email', 'test@example.com')->value('id'),
+            'agent_id' => DB::table('users')->where('email', 'test@example.com')->value('id'),
             'bird_species_id' => DB::table('bird_species')->where('title', 'Американский бекасовидный веретенник')->value('id'),
             'latitude' => 54.72181,
             'longitude' => 110.7851,
@@ -50,7 +50,7 @@ class BirdDetectionSeeder extends Seeder
         ));
 
         BirdDetection::create(array(
-            'user_id' => DB::table('users')->where('email', 'test@example.com')->value('id'),
+            'agent_id' => DB::table('users')->where('email', 'test@example.com')->value('id'),
             'bird_species_id' => DB::table('bird_species')->where('title', 'Американский бекасовидный веретенник')->value('id'),
             'latitude' => 54.0565,
             'longitude' => 111.180,
@@ -60,7 +60,7 @@ class BirdDetectionSeeder extends Seeder
         ));
 
         BirdDetection::create(array(
-            'user_id' => DB::table('users')->where('email', 'test@example.com')->value('id'),
+            'agent_id' => DB::table('users')->where('email', 'test@example.com')->value('id'),
             'bird_species_id' => DB::table('bird_species')->where('title', 'Американский конек')->value('id'),
             'latitude' => 53.789558,
             'longitude' => 109.78127,
@@ -70,7 +70,7 @@ class BirdDetectionSeeder extends Seeder
         ));
 
         BirdDetection::create(array(
-            'user_id' => DB::table('users')->where('email', 'test@example.com')->value('id'),
+            'agent_id' => DB::table('users')->where('email', 'test@example.com')->value('id'),
             'bird_species_id' => DB::table('bird_species')->where('title', 'Американский конек')->value('id'),
             'latitude' => 53.7522,
             'longitude' => 109.83620,
