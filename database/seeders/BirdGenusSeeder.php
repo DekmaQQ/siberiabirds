@@ -14,8 +14,6 @@ class BirdGenusSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('bird_genera')->delete();
-
         BirdGenus::create(array(
             'title' => 'Чибисы',
             'title_latin' => 'Vanellus',

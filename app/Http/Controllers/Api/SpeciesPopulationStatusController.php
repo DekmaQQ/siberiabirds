@@ -14,9 +14,9 @@ class SpeciesPopulationStatusController extends Controller
      */
     public function index()
     {
-        $species_population_statuses = SpeciesPopulationStatus::all();
+        $speciesPopulationStatuses = SpeciesPopulationStatus::all();
 
-        return SpeciesPopulationStatusResource::collection($species_population_statuses);
+        return SpeciesPopulationStatusResource::collection($speciesPopulationStatuses);
     }
 
     /**
@@ -38,11 +38,11 @@ class SpeciesPopulationStatusController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $id)
+    public function show(string $id)
     {
-        $species_status_population = SpeciesPopulationStatus::findOrFail($id);
+        $speciesPopulationStatus = SpeciesPopulationStatus::findOrFail($id);
         
-        return new SpeciesPopulationStatusResource($species_status_population);
+        return new SpeciesPopulationStatusResource($speciesPopulationStatus);
     }
 
     /**
@@ -66,6 +66,6 @@ class SpeciesPopulationStatusController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        SpeciesPopulationStatus::destroy($id);
     }
 }

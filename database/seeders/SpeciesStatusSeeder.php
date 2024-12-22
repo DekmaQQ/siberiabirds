@@ -14,8 +14,6 @@ class SpeciesStatusSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('species_statuses')->delete();
-
         SpeciesStatus::create(array(
             'title' => 'залётный',
             // 'description' => ''

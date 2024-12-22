@@ -14,9 +14,9 @@ class BirdGenusController extends Controller
      */
     public function index()
     {
-        $bird_genera = BirdGenus::all();
+        $birdGenera = BirdGenus::all();
 
-        return BirdGenusResource::collection($bird_genera);
+        return BirdGenusResource::collection($birdGenera);
     }
 
     /**
@@ -38,11 +38,11 @@ class BirdGenusController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $id)
+    public function show(string $id)
     {
-        $bird_genus = BirdGenus::findOrFail($id);
+        $birdGenus = BirdGenus::findOrFail($id);
 
-        return new BirdGenusResource($bird_genus);
+        return new BirdGenusResource($birdGenus);
     }
 
     /**
@@ -66,6 +66,6 @@ class BirdGenusController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        BirdGenus::destroy($id);
     }
 }

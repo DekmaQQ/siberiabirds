@@ -38,7 +38,7 @@ class UserRoleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $id)
+    public function show(string $id)
     {
         $userRole = UserRole::findOrFail($id);
 
@@ -66,6 +66,6 @@ class UserRoleController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        UserRole::destroy($id);
     }
 }

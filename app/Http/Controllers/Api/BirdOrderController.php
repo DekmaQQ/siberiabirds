@@ -14,9 +14,9 @@ class BirdOrderController extends Controller
      */
     public function index()
     {
-        $bird_orders = BirdOrder::all();
+        $birdOrders = BirdOrder::all();
 
-        return BirdOrderResource::collection($bird_orders);
+        return BirdOrderResource::collection($birdOrders);
     }
 
     /**
@@ -38,11 +38,11 @@ class BirdOrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $id)
+    public function show(string $id)
     {
-        $bird_order = BirdOrder::findOrFail($id);
+        $birdOrder = BirdOrder::findOrFail($id);
 
-        return new BirdOrderResource($bird_order);
+        return new BirdOrderResource($birdOrder);
     }
 
     /**
@@ -66,6 +66,6 @@ class BirdOrderController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        BirdOrder::destroy($id);
     }
 }

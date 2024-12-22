@@ -14,8 +14,6 @@ class BirdFamilySeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('bird_families')->delete();
-
         BirdFamily::create(array(
             'title' => 'Ржанковые',
             'title_latin' => 'Charadriidae',

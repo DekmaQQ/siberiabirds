@@ -14,8 +14,6 @@ class SpeciesPopulationStatusSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('species_population_statuses')->delete();
-
         SpeciesPopulationStatus::create(array(
             'title' => 'редкий',
             'description' => 'Вид был встречен 6-10 раз за все годы исследований.'

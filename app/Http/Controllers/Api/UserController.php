@@ -38,7 +38,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $id)
+    public function show(string $id)
     {
         $user = User::findOrFail($id);
 
@@ -66,6 +66,6 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        User::destroy($id);
     }
 }

@@ -14,8 +14,6 @@ class UserRoleSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('user_roles')->delete();
-
         UserRole::create(array(
             'title' => 'admin'
         ));
