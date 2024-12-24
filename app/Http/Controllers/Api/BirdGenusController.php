@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\BirdGenus;
 use App\Http\Resources\BirdGenusResource;
 use App\Support\StringHelper;
+use Illuminate\Support\Facades\Gate;
 
 class BirdGenusController extends Controller
 {
@@ -33,6 +34,8 @@ class BirdGenusController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create', BirdGenus::class);
+
         $validated = $request->validate([
             'title' => [
                 'required',
@@ -92,6 +95,7 @@ class BirdGenusController extends Controller
     public function update(Request $request, string $id)
     {
         $birdGenus = BirdGenus::findOrFail($id);
+        Gate::authorize('update', $birdGenus);
 
         $validated = $request->validate([
             'title' => [
@@ -133,6 +137,8 @@ class BirdGenusController extends Controller
      */
     public function destroy(string $id)
     {
-        BirdGenus::destroy($id);
+        $birdGenus = BirdGenus::findOrFail($id);
+        Gate::authorize('delete', $birdGenus);
+        $birdGenus->destroy();
     }
 }

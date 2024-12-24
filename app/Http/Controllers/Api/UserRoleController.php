@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\UserRole;
 use App\Http\Resources\UserRoleResource;
+use Illuminate\Support\Facades\Gate;
 
 class UserRoleController extends Controller
 {
@@ -32,6 +33,8 @@ class UserRoleController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create', UserRole::class);
+
         $validated = $request->validate([
             'title' => ['required', 'string', 'unique:user_roles,title', 'max:255', 'regex:/^[a-zA-Z\s]+$/'],
         ]);
@@ -71,13 +74,14 @@ class UserRoleController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $userRole = UserRole::findOrFail($id);
+        Gate::authorize('update', $userRole);
+
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255', 'unique:user_roles,title,' . $id, 'regex:/^[a-zA-Z\s]+$/'],
         ]);
 
         $validated['title'] = strtolower($validated['title']);
-
-        $userRole = UserRole::find($id);
 
         if (!$userRole) {
             return response()->json(['message' => 'Role not found'], 404);
@@ -98,6 +102,8 @@ class UserRoleController extends Controller
      */
     public function destroy(string $id)
     {
-        UserRole::destroy($id);
+        $userRole = UserRole::findOrFail($id);
+        Gate::authorize('delete', $userRole);
+        $userRole->destroy();
     }
 }

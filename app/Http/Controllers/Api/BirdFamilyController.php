@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BirdFamily;
 use App\Http\Resources\BirdFamilyResource;
+use Illuminate\Support\Facades\Gate;
 use App\Support\StringHelper;
 
 class BirdFamilyController extends Controller
@@ -33,6 +34,8 @@ class BirdFamilyController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create', BirdFamily::class);
+
         $validated = $request->validate([
             'title' => [
                 'required',
@@ -92,6 +95,7 @@ class BirdFamilyController extends Controller
     public function update(Request $request, string $id)
     {
         $birdFamily = BirdFamily::findOrFail($id);
+        Gate::authorize('update', $birdFamily);
 
         $validated = $request->validate([
             'title' => [
@@ -133,6 +137,8 @@ class BirdFamilyController extends Controller
      */
     public function destroy(string $id)
     {
-        BirdFamily::destroy($id);
+        $birdFamily = BirdFamily::findOrFail($id);
+        Gate::authorize('delete', $birdFamily);
+        $birdFamily->destroy();
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\SpeciesStatus;
 use App\Http\Resources\SpeciesStatusResource;
 use App\Support\StringHelper;
+use Illuminate\Support\Facades\Gate;
 
 class SpeciesStatusController extends Controller
 {
@@ -33,6 +34,8 @@ class SpeciesStatusController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create', SpeciesStatus::class);
+
         $validated = $request->validate([
             'title' => [
                 'required',
@@ -85,6 +88,7 @@ class SpeciesStatusController extends Controller
     public function update(Request $request, string $id)
     {
         $speciesStatus = SpeciesStatus::findOrFail($id);
+        Gate::authorize('update', $speciesStatus);
 
         $validated = $request->validate([
             'title' => [
@@ -119,6 +123,8 @@ class SpeciesStatusController extends Controller
      */
     public function destroy(string $id)
     {
-        SpeciesStatus::destroy($id);
+        $speciesStatus = SpeciesStatus::findOrFail($id);
+        Gate::authorize('delete', $speciesStatus);
+        $speciesStatus->destroy();
     }
 }

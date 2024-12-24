@@ -18,7 +18,7 @@ class BirdDetectionResource extends JsonResource
             'id' => $this->id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'user' => $this->user,
+            'agent_id' => $this->agent_id,
             'bird_species' => new BirdSpeciesResource($this->birdSpecies),
             'latitude' => $this->latitude,
             'longtitude' => $this->longitude,

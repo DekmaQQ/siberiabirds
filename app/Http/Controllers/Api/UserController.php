@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\UserRole;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -16,6 +17,8 @@ class UserController extends Controller
      */
     public function index()
     {
+        Gate::authorize('viewAny', User::class);
+
         $users = User::all();
 
         return UserResource::collection($users);
@@ -34,6 +37,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create', User::class);
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
@@ -81,6 +86,7 @@ class UserController extends Controller
     public function show(string $id)
     {
         $user = User::findOrFail($id);
+        Gate::authorize('view', $user);
 
         return new UserResource($user);
     }
@@ -98,6 +104,9 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $user = User::findOrFail($id);
+        Gate::authorize('update', $user);
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
@@ -107,15 +116,6 @@ class UserController extends Controller
 
         $currentUser = $request->user('sanctum');
         $currentUserRole = $currentUser->userRole->title;
-        $user = User::find($id);
-
-        if (!$user) {
-            return response()->json(['message' => 'User not found'], 404);
-        }
-
-        if ($user->creator_id !== $currentUser->id) {
-            return response()->json(['message' => 'You are not authorized to update this user'], 403);
-        }
 
         if ($request->has('user_role_id')) {
             if ($currentUserRole === 'admin') {
@@ -147,6 +147,8 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        User::destroy($id);
+        $user = User::findOrFail($id);
+        Gate::authorize('delete', $user);
+        $user->destroy();
     }
 }

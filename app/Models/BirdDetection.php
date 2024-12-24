@@ -17,7 +17,7 @@ class BirdDetection extends Model
         'confirmed'
     ];
 
-    public function user(): BelongsTo
+    public function agent(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

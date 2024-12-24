@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\BirdSpecies;
 use App\Http\Resources\BirdSpeciesResource;
 use App\Support\StringHelper;
+use Illuminate\Support\Facades\Gate;
 #TODO: убирать лишние пробелы
 class BirdSpeciesController extends Controller
 {
@@ -33,6 +34,8 @@ class BirdSpeciesController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create', BirdSpecies::class);
+
         $validated = $request->validate([
             'title' => [
                 'required',
@@ -111,6 +114,7 @@ class BirdSpeciesController extends Controller
     public function update(Request $request, string $id)
     {
         $birdSpecies = BirdSpecies::findOrFail($id);
+        Gate::authorize('update', $birdSpecies);
 
         $validated = $request->validate([
             'title' => [
@@ -171,6 +175,8 @@ class BirdSpeciesController extends Controller
      */
     public function destroy(string $id)
     {
-        BirdSpecies::destroy($id);
+        $birdSpecies = BirdSpecies::findOrFail($id);
+        Gate::authorize('delete', $birdSpecies);
+        $birdSpecies->destroy();
     }
 }

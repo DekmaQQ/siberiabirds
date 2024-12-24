@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BirdDetection;
 use App\Http\Resources\BirdDetectionResource;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 
 class BirdDetectionController extends Controller
 {
@@ -32,17 +34,29 @@ class BirdDetectionController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create', BirdDetection::class);
+        $currentUser = $request->user('sanctum');
+
         $validated = $request->validate([
-            'agent_id' => 'required|exists:users,id',
             'bird_species_id' => 'required|exists:bird_species,id',
             'latitude' => 'required|numeric|between:-90,90',
             'longitude' => 'required|numeric|between:-180,180',
-            'detection_timestamp' => 'required|date',
+            'detection_timestamp' => [
+                'required',
+                'date',
+                Rule::unique('bird_detections')->where(function ($query) use ($request) {
+                    return $query->where('bird_species_id', $request->bird_species_id)
+                                 ->where('latitude', $request->latitude)
+                                 ->where('longitude', $request->longitude);
+                })
+            ],
             'comment' => 'nullable|string',
+        ], [
+            'detection_timestamp.unique' => 'The detection for this bird species at the given location and time already exists.',
         ]);
 
         $birdDetection = BirdDetection::create([
-            'agent_id' => $validated['agent_id'],
+            'agent_id' => $currentUser->id,
             'bird_species_id' => $validated['bird_species_id'],
             'latitude' => $validated['latitude'],
             'longitude' => $validated['longitude'],
@@ -79,24 +93,29 @@ class BirdDetectionController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $birdDetection = BirdDetection::findOrFail($id);
+        Gate::authorize('update', $birdDetection);
+
         $validated = $request->validate([
-            'agent_id' => 'required|exists:users,id',
             'bird_species_id' => 'required|exists:bird_species,id',
             'latitude' => 'required|numeric|between:-90,90',
             'longitude' => 'required|numeric|between:-180,180',
-            'detection_timestamp' => 'required|date',
+            'detection_timestamp' => [
+                'required',
+                'date',
+                Rule::unique('bird_detections')->where(function ($query) use ($request) {
+                    return $query->where('bird_species_id', $request->bird_species_id)
+                                 ->where('latitude', $request->latitude)
+                                 ->where('longitude', $request->longitude);
+                })
+            ],
             'comment' => 'nullable|string',
-            'confirmed' => 'nullable|boolean',
+            'confirmed' => 'nullable|boolean'
+        ], [
+            'detection_timestamp.unique' => 'The detection for this bird species at the given location and time already exists.',
         ]);
 
-        $birdDetection = BirdDetection::find($id);
-
-        if (!$birdDetection) {
-            return response()->json(['message' => 'Bird detection not found'], 404);
-        }
-
         $birdDetection->update([
-            'agent_id' => $validated['agent_id'],
             'bird_species_id' => $validated['bird_species_id'],
             'latitude' => $validated['latitude'],
             'longitude' => $validated['longitude'],
@@ -116,6 +135,8 @@ class BirdDetectionController extends Controller
      */
     public function destroy(string $id)
     {
-        BirdDetection::destroy($id);
+        $birdDetection = BirdDetection::findOrFail($id);
+        Gate::authorize('delete', $birdDetection);
+        $birdDetection->destroy();
     }
 }

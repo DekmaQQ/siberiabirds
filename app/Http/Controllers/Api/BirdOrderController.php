@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\BirdOrder;
 use App\Http\Resources\BirdOrderResource;
 use App\Support\StringHelper;
+use Illuminate\Support\Facades\Gate;
 
 class BirdOrderController extends Controller
 {
@@ -33,6 +34,8 @@ class BirdOrderController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create', BirdOrder::class);
+
         $validated = $request->validate([
             'title' => [
                 'required',
@@ -91,6 +94,7 @@ class BirdOrderController extends Controller
     public function update(Request $request, string $id)
     {
         $birdOrder = BirdOrder::findOrFail($id);
+        Gate::authorize('update', $birdOrder);
 
         $validated = $request->validate([
             'title' => [
@@ -131,6 +135,8 @@ class BirdOrderController extends Controller
      */
     public function destroy(string $id)
     {
-        BirdOrder::destroy($id);
+        $birdOrder = BirdOrder::findOrFail($id);
+        Gate::authorize('delete', $birdOrder);
+        $birdOrder->destroy();
     }
 }
