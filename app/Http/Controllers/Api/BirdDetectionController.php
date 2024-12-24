@@ -32,7 +32,28 @@ class BirdDetectionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'agent_id' => 'required|exists:users,id',
+            'bird_species_id' => 'required|exists:bird_species,id',
+            'latitude' => 'required|numeric|between:-90,90',
+            'longitude' => 'required|numeric|between:-180,180',
+            'detection_timestamp' => 'required|date',
+            'comment' => 'nullable|string',
+        ]);
+
+        $birdDetection = BirdDetection::create([
+            'agent_id' => $validated['agent_id'],
+            'bird_species_id' => $validated['bird_species_id'],
+            'latitude' => $validated['latitude'],
+            'longitude' => $validated['longitude'],
+            'detection_timestamp' => $validated['detection_timestamp'],
+            'comment' => $validated['comment'],
+        ]);
+
+        return response()->json([
+            'message' => 'Bird detection created successfully',
+            'data' => new BirdDetectionResource($birdDetection),
+        ], 201);
     }
 
     /**
@@ -58,7 +79,36 @@ class BirdDetectionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'agent_id' => 'required|exists:users,id',
+            'bird_species_id' => 'required|exists:bird_species,id',
+            'latitude' => 'required|numeric|between:-90,90',
+            'longitude' => 'required|numeric|between:-180,180',
+            'detection_timestamp' => 'required|date',
+            'comment' => 'nullable|string',
+            'confirmed' => 'nullable|boolean',
+        ]);
+
+        $birdDetection = BirdDetection::find($id);
+
+        if (!$birdDetection) {
+            return response()->json(['message' => 'Bird detection not found'], 404);
+        }
+
+        $birdDetection->update([
+            'agent_id' => $validated['agent_id'],
+            'bird_species_id' => $validated['bird_species_id'],
+            'latitude' => $validated['latitude'],
+            'longitude' => $validated['longitude'],
+            'detection_timestamp' => $validated['detection_timestamp'],
+            'comment' => $validated['comment'],
+            'confirmed' => $validated['confirmed'] ?? $birdDetection->confirmed, // Сохраняем прежнее значение, если не передано новое
+        ]);
+
+        return response()->json([
+            'message' => 'Bird detection updated successfully',
+            'data' => new BirdDetectionResource($birdDetection),
+        ], 200);
     }
 
     /**

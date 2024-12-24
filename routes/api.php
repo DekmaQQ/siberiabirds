@@ -13,13 +13,17 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\UserRoleController;
 use App\Http\Controllers\Api\AuthController;
 
-Route::post('/register', [AuthController::class, 'register'])->middleware('auth:sanctum');
-Route::post('/login', [AuthController::class, 'login'])->middleware('auth:sanctum');
-Route::get('/check-token', [AuthController::class, 'checkToken'])->middleware('auth:sanctum');
+Route::get('/login', [AuthController::class, 'login']);
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::post('/species-statuses/add', [SpeciesStatusController::class, 'store']);
+Route::post('/species-population-statuses/add', [SpeciesPopulationStatusController::class, 'store']);
+Route::post('/bird-orders/add', [BirdOrderController::class, 'store']);
+Route::post('/bird-families/add', [BirdFamilyController::class, 'store']);
+Route::post('/bird-genera/add', [BirdGenusController::class, 'store']);
+Route::post('/bird-species/add', [BirdSpeciesController::class, 'store']);
+Route::post('/bird-detections/add', [BirdDetectionController::class, 'store']);
+Route::post('/users/add', [UserController::class, 'store']);
+Route::post('/user-roles/add', [UserRoleController::class, 'store']);
 
 Route::get('/species-statuses', [SpeciesStatusController::class, 'index']);
 Route::get('/species-statuses/{id}', [SpeciesStatusController::class, 'show']);
@@ -39,6 +43,16 @@ Route::get('/users', [UserController::class, 'index']);
 Route::get('/users/{id}', [UserController::class, 'show']);
 Route::get('/user-roles', [UserRoleController::class, 'index']);
 Route::get('/user-roles/{id}', [UserRoleController::class, 'show']);
+
+Route::put('/species-statuses/update/{id}', [SpeciesStatusController::class, 'update']);
+Route::put('/species-population-statuses/update/{id}', [SpeciesPopulationStatusController::class, 'update']);
+Route::put('/bird-orders/update/{id}', [BirdOrderController::class, 'update']);
+Route::put('/bird-families/update/{id}', [BirdFamilyController::class, 'update']);
+Route::put('/bird-genera/update/{id}', [BirdGenusController::class, 'update']);
+Route::put('/bird-species/update/{id}', [BirdSpeciesController::class, 'update']);
+Route::put('/bird-detections/update/{id}', [BirdDetectionController::class, 'update']);
+Route::put('/users/update/{id}', [UserController::class, 'update']);
+Route::put('/user-roles/update/{id}', [UserRoleController::class, 'update']);
 
 Route::delete('/species-statuses/delete/{id}', [SpeciesStatusController::class, 'destroy']);
 Route::delete('/species-population-statuses/delete/{id}', [SpeciesPopulationStatusController::class, 'destroy']);

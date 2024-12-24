@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BirdOrder;
 use App\Http\Resources\BirdOrderResource;
+use App\Support\StringHelper;
 
 class BirdOrderController extends Controller
 {
@@ -32,7 +33,38 @@ class BirdOrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => [
+                'required',
+                'string',
+                'min:3',
+                'max:255',
+                'regex:/^[а-яА-ЯёЁ\s\-]+$/u',
+                'unique:bird_orders',
+            ],
+            'title_latin' => [
+                'required',
+                'string',
+                'min:3',
+                'max:255',
+                'regex:/^[a-zA-Z\s]+$/u',
+                'unique:bird_orders',
+            ],
+            'description' => 'nullable|string',
+        ]);
+
+        $validated['title'] = StringHelper::ucfirstMb(mb_strtolower($validated['title'], 'UTF-8'));
+        $validated['title_latin'] = ucfirst(mb_strtolower($validated['title_latin'], 'UTF-8'));
+        $validated['description'] = $validated['description'] 
+            ? StringHelper::ucfirstMb($validated['description'])
+            : null;
+
+        $birdOrder = BirdOrder::create($validated);
+
+        return response()->json([
+            'message' => 'Bird order created successfully.',
+            'data' => new BirdOrderResource($birdOrder),
+        ], 201);
     }
 
     /**
@@ -58,7 +90,40 @@ class BirdOrderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $birdOrder = BirdOrder::findOrFail($id);
+
+        $validated = $request->validate([
+            'title' => [
+                'required',
+                'string',
+                'min:3',
+                'max:255',
+                'regex:/^[а-яА-ЯёЁ\s\-]+$/u',
+                'unique:bird_orders,title,' . $id,
+            ],
+            'title_latin' => [
+                'required',
+                'string',
+                'min:3',
+                'max:255',
+                'regex:/^[a-zA-Z\s]+$/u',
+                'unique:bird_orders,title_latin,' . $id,
+            ],
+            'description' => 'nullable|string',
+        ]);
+
+        $validated['title'] = StringHelper::ucfirstMb(mb_strtolower($validated['title'], 'UTF-8'));
+        $validated['title_latin'] = ucfirst(mb_strtolower($validated['title_latin'], 'UTF-8'));
+        $validated['description'] = $validated['description'] 
+            ? StringHelper::ucfirstMb($validated['description'])
+            : null;
+
+        $birdOrder->update($validated);
+
+        return response()->json([
+            'message' => 'Bird order updated successfully.',
+            'data' => new BirdOrderResource($birdOrder),
+        ], 200);
     }
 
     /**

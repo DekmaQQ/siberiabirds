@@ -37,6 +37,6 @@ class BirdSpecies extends Model
 
     public function speciesStatuses(): BelongsToMany
     {
-        return $this->belongsToMany(SpeciesStatus::class);
+        return $this->belongsToMany(SpeciesStatus::class)->withTimestamps();
     }
 }

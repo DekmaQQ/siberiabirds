@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BirdGenus;
 use App\Http\Resources\BirdGenusResource;
+use App\Support\StringHelper;
 
 class BirdGenusController extends Controller
 {
@@ -32,7 +33,39 @@ class BirdGenusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => [
+                'required',
+                'string',
+                'min:3',
+                'max:255',
+                'regex:/^[а-яА-ЯёЁ\s\-]+$/u',
+                'unique:bird_genera',
+            ],
+            'title_latin' => [
+                'required',
+                'string',
+                'min:3',
+                'max:255',
+                'regex:/^[a-zA-Z\s]+$/u',
+                'unique:bird_genera',
+            ],
+            'description' => 'nullable|string',
+            'bird_family_id' => 'required|exists:bird_families,id',
+        ]);
+
+        $validated['title'] = StringHelper::ucfirstMb(mb_strtolower($validated['title'], 'UTF-8'));
+        $validated['title_latin'] = ucfirst(mb_strtolower($validated['title_latin'], 'UTF-8'));
+        $validated['description'] = $validated['description'] 
+            ? StringHelper::ucfirstMb($validated['description'])
+            : null;
+
+        $birdGenus = BirdGenus::create($validated);
+
+        return response()->json([
+            'message' => 'Bird genus created successfully.',
+            'data' => new BirdGenusResource($birdGenus),
+        ], 201);
     }
 
     /**
@@ -58,7 +91,41 @@ class BirdGenusController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $birdGenus = BirdGenus::findOrFail($id);
+
+        $validated = $request->validate([
+            'title' => [
+                'required',
+                'string',
+                'min:3',
+                'max:255',
+                'regex:/^[а-яА-ЯёЁ\s\-]+$/u',
+                'unique:bird_genera,title,' . $id,
+            ],
+            'title_latin' => [
+                'required',
+                'string',
+                'min:3',
+                'max:255',
+                'regex:/^[a-zA-Z\s]+$/u',
+                'unique:bird_genera,title_latin,' . $id,
+            ],
+            'description' => 'nullable|string',
+            'bird_family_id' => 'required|exists:bird_families,id',
+        ]);
+
+        $validated['title'] = StringHelper::ucfirstMb(mb_strtolower($validated['title'], 'UTF-8'));
+        $validated['title_latin'] = ucfirst(mb_strtolower($validated['title_latin'], 'UTF-8'));
+        $validated['description'] = $validated['description'] 
+            ? StringHelper::ucfirstMb($validated['description'])
+            : null;
+
+        $birdGenus->update($validated);
+
+        return response()->json([
+            'message' => 'Bird genus updated successfully.',
+            'data' => new BirdGenusResource($birdGenus),
+        ], 200);
     }
 
     /**

@@ -32,7 +32,20 @@ class UserRoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'unique:user_roles,title', 'max:255', 'regex:/^[a-zA-Z\s]+$/'],
+        ]);
+
+        $validated['title'] = strtolower($validated['title']);
+
+        $userRole = UserRole::create([
+            'title' => $validated['title'],
+        ]);
+
+        return response()->json([
+            'message' => 'User role created successfully',
+            'data' => new UserRoleResource($userRole),
+        ], 201);
     }
 
     /**
@@ -58,7 +71,26 @@ class UserRoleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'max:255', 'unique:user_roles,title,' . $id, 'regex:/^[a-zA-Z\s]+$/'],
+        ]);
+
+        $validated['title'] = strtolower($validated['title']);
+
+        $userRole = UserRole::find($id);
+
+        if (!$userRole) {
+            return response()->json(['message' => 'Role not found'], 404);
+        }
+
+        $userRole->update([
+            'title' => $validated['title'],
+        ]);
+
+        return response()->json([
+            'message' => 'User role updated successfully',
+            'data' => new UserRoleResource($userRole),
+        ], 200);
     }
 
     /**

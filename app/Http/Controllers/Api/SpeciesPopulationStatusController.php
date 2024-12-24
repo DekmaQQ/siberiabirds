@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SpeciesPopulationStatus;
 use App\Http\Resources\SpeciesPopulationStatusResource;
+use App\Support\StringHelper;
 
 class SpeciesPopulationStatusController extends Controller
 {
@@ -32,7 +33,32 @@ class SpeciesPopulationStatusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => [
+                'required',
+                'string',
+                'min:3',
+                'max:255',
+                'regex:/^[а-яА-ЯёЁ\s]+$/u',
+                'unique:species_population_statuses',
+            ],
+            'description' => 'nullable|string',
+        ]);
+
+        $validated['title'] = mb_strtolower($validated['title'], 'UTF-8');
+        $validated['description'] = $validated['description'] 
+            ? StringHelper::ucfirstMb($validated['description'])
+            : null;
+
+        $speciesPopulationStatus = SpeciesPopulationStatus::create([
+            'title' => $validated['title'],
+            'description' => $validated['description'] ?? null,
+        ]);
+
+        return response()->json([
+            'message' => 'Species population status created successfully.',
+            'data' => new SpeciesPopulationStatusResource($speciesPopulationStatus),
+        ], 201);
     }
 
     /**
@@ -58,7 +84,34 @@ class SpeciesPopulationStatusController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $speciesPopulationStatus = SpeciesPopulationStatus::findOrFail($id);
+
+        $validated = $request->validate([
+            'title' => [
+                'required',
+                'string',
+                'min:3',
+                'max:255',
+                'regex:/^[а-яА-ЯёЁ\s]+$/u',
+                'unique:species_population_statuses,title,' . $id,
+            ],
+            'description' => 'nullable|string',
+        ]);
+
+        $validated['title'] = mb_strtolower($validated['title'], 'UTF-8');
+        $validated['description'] = $validated['description'] 
+            ? StringHelper::ucfirstMb($validated['description'])
+            : null;
+
+        $speciesPopulationStatus->update([
+            'title' => $validated['title'],
+            'description' => $validated['description'] ?? null,
+        ]);
+
+        return response()->json([
+            'message' => 'Species population status updated successfully.',
+            'data' => new SpeciesPopulationStatusResource($speciesPopulationStatus),
+        ], 200);
     }
 
     /**
