@@ -93,10 +93,8 @@ class BirdSpeciesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(BirdSpecies $birdSpecies)
     {
-        $birdSpecies = BirdSpecies::findOrFail($id);
-
         return new BirdSpeciesResource($birdSpecies);
     }
 
@@ -111,9 +109,8 @@ class BirdSpeciesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, BirdSpecies $birdSpecies)
     {
-        $birdSpecies = BirdSpecies::findOrFail($id);
         Gate::authorize('update', $birdSpecies);
 
         $validated = $request->validate([
@@ -123,7 +120,7 @@ class BirdSpeciesController extends Controller
                 'min:3',
                 'max:255',
                 'regex:/^[а-яА-ЯёЁ\s\-]+$/u',
-                'unique:bird_species,title,' . $id,
+                'unique:bird_species,title,' . $birdSpecies->id,
             ],
             'title_latin' => [
                 'required',
@@ -131,7 +128,7 @@ class BirdSpeciesController extends Controller
                 'min:3',
                 'max:255',
                 'regex:/^[a-zA-Z\s]+$/u',
-                'unique:bird_species,title_latin,' . $id,
+                'unique:bird_species,title_latin,' . $birdSpecies->id,
             ],
             'description' => 'nullable|string',
             'distribution' => 'nullable|string',
@@ -173,10 +170,13 @@ class BirdSpeciesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(BirdSpecies $birdSpecies)
     {
-        $birdSpecies = BirdSpecies::findOrFail($id);
         Gate::authorize('delete', $birdSpecies);
-        $birdSpecies->destroy();
+        $birdSpecies->delete();
+
+        return response()->json([
+            'message' => 'Bird species deleted successfully.'
+        ], 200);
     }
 }

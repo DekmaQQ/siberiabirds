@@ -83,9 +83,8 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user)
     {
-        $user = User::findOrFail($id);
         Gate::authorize('view', $user);
 
         return new UserResource($user);
@@ -102,14 +101,13 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $user)
     {
-        $user = User::findOrFail($id);
         Gate::authorize('update', $user);
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8',
             'user_role_id' => 'nullable|exists:user_roles,id',
         ]);
@@ -137,7 +135,7 @@ class UserController extends Controller
         $user->update($validated);
 
         return response()->json([
-            'message' => 'User updated successfully',
+            'message' => 'User updated successfully.',
             'data' => new UserResource($user),
         ], 200);
     }
@@ -145,10 +143,13 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        $user = User::findOrFail($id);
         Gate::authorize('delete', $user);
-        $user->destroy();
+        $user->delete();
+
+        return response()->json([
+            'message' => 'User deleted successfully.'
+        ], 200);
     }
 }

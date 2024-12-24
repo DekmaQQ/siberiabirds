@@ -2,11 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,17 +22,9 @@ class DatabaseSeeder extends Seeder
             BirdGenusSeeder::class,
             BirdSpeciesSeeder::class,
             BirdSpeciesSpeciesStatusSeeder::class,
-            UserRoleSeeder::class
+            UserRoleSeeder::class,
+            UserSeeder::class,
+            BirdDetectionSeeder::class
         ]);
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => Hash::make('qwerty123'),
-            'creator_id' => 1,
-            'user_role_id' => DB::table('user_roles')->where('title', 'admin')->value('id')
-        ]);
-
-        $this->call(BirdDetectionSeeder::class);
     }
 }

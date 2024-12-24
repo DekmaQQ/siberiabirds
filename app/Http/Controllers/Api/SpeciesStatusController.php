@@ -67,10 +67,8 @@ class SpeciesStatusController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        $speciesStatus = SpeciesStatus::findOrFail($id);
-        
+    public function show(SpeciesStatus $speciesStatus)
+    {        
         return new SpeciesStatusResource($speciesStatus);
     }
 
@@ -85,9 +83,8 @@ class SpeciesStatusController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, SpeciesStatus $speciesStatus)
     {
-        $speciesStatus = SpeciesStatus::findOrFail($id);
         Gate::authorize('update', $speciesStatus);
 
         $validated = $request->validate([
@@ -97,7 +94,7 @@ class SpeciesStatusController extends Controller
                 'min:3',
                 'max:255',
                 'regex:/^[а-яА-ЯёЁ\s]+$/u',
-                'unique:species_statuses,title,' . $id,
+                'unique:species_statuses,title,' . $speciesStatus->id,
             ],
             'description' => 'nullable|string',
         ]);
@@ -121,10 +118,13 @@ class SpeciesStatusController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(SpeciesStatus $speciesStatus)
     {
-        $speciesStatus = SpeciesStatus::findOrFail($id);
         Gate::authorize('delete', $speciesStatus);
-        $speciesStatus->destroy();
+        $speciesStatus->delete();
+
+        return response()->json([
+            'message' => 'Species status deleted successfully.'
+        ], 200);
     }
 }

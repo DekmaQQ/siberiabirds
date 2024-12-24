@@ -15,6 +15,8 @@ class UserRoleController extends Controller
      */
     public function index()
     {
+        Gate::authorize('viewAny', UserRole::class);
+
         $userRoles = UserRole::all();
 
         return UserRoleResource::collection($userRoles);
@@ -54,9 +56,9 @@ class UserRoleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(UserRole $userRole)
     {
-        $userRole = UserRole::findOrFail($id);
+        Gate::authorize('view', $userRole);
 
         return new UserRoleResource($userRole);
     }
@@ -72,27 +74,22 @@ class UserRoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, UserRole $userRole)
     {
-        $userRole = UserRole::findOrFail($id);
         Gate::authorize('update', $userRole);
 
         $validated = $request->validate([
-            'title' => ['required', 'string', 'max:255', 'unique:user_roles,title,' . $id, 'regex:/^[a-zA-Z\s]+$/'],
+            'title' => ['required', 'string', 'max:255', 'unique:user_roles,title,' . $userRole->id, 'regex:/^[a-zA-Z\s]+$/'],
         ]);
 
         $validated['title'] = strtolower($validated['title']);
-
-        if (!$userRole) {
-            return response()->json(['message' => 'Role not found'], 404);
-        }
 
         $userRole->update([
             'title' => $validated['title'],
         ]);
 
         return response()->json([
-            'message' => 'User role updated successfully',
+            'message' => 'User role updated successfully.',
             'data' => new UserRoleResource($userRole),
         ], 200);
     }
@@ -100,10 +97,13 @@ class UserRoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(UserRole $userRole)
     {
-        $userRole = UserRole::findOrFail($id);
         Gate::authorize('delete', $userRole);
-        $userRole->destroy();
+        $userRole->delete();
+
+        return response()->json([
+            'message' => 'User role deleted successfully.'
+        ], 200);
     }
 }

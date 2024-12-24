@@ -74,10 +74,8 @@ class BirdFamilyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(BirdFamily $birdFamily)
     {
-        $birdFamily = BirdFamily::findOrFail($id);
-
         return new BirdFamilyResource($birdFamily);
     }
 
@@ -92,9 +90,8 @@ class BirdFamilyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, BirdFamily $birdFamily)
     {
-        $birdFamily = BirdFamily::findOrFail($id);
         Gate::authorize('update', $birdFamily);
 
         $validated = $request->validate([
@@ -104,7 +101,7 @@ class BirdFamilyController extends Controller
                 'min:3',
                 'max:255',
                 'regex:/^[а-яА-ЯёЁ\s\-]+$/u',
-                'unique:bird_families,title,' . $id,
+                'unique:bird_families,title,' . $birdFamily->id,
             ],
             'title_latin' => [
                 'required',
@@ -112,7 +109,7 @@ class BirdFamilyController extends Controller
                 'min:3',
                 'max:255',
                 'regex:/^[a-zA-Z\s]+$/u',
-                'unique:bird_families,title_latin,' . $id,
+                'unique:bird_families,title_latin,' . $birdFamily->id,
             ],
             'description' => 'nullable|string',
             'bird_order_id' => 'required|exists:bird_orders,id',
@@ -135,10 +132,13 @@ class BirdFamilyController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(BirdFamily $birdFamily)
     {
-        $birdFamily = BirdFamily::findOrFail($id);
         Gate::authorize('delete', $birdFamily);
-        $birdFamily->destroy();
+        $birdFamily->delete();
+
+        return response()->json([
+            'message' => 'Bird family deleted successfully.'
+        ], 200);
     }
 }

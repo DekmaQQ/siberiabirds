@@ -34,6 +34,5 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(BirdSpecies::class, MainPolicy::class);
         Gate::policy(SpeciesPopulationStatus::class, MainPolicy::class);
         Gate::policy(SpeciesStatus::class, MainPolicy::class);
-        Gate::policy(UserRole::class, MainPolicy::class);
     }
 }

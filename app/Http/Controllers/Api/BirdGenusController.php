@@ -74,10 +74,8 @@ class BirdGenusController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(BirdGenus $birdGenus)
     {
-        $birdGenus = BirdGenus::findOrFail($id);
-
         return new BirdGenusResource($birdGenus);
     }
 
@@ -92,9 +90,8 @@ class BirdGenusController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, BirdGenus $birdGenus)
     {
-        $birdGenus = BirdGenus::findOrFail($id);
         Gate::authorize('update', $birdGenus);
 
         $validated = $request->validate([
@@ -104,7 +101,7 @@ class BirdGenusController extends Controller
                 'min:3',
                 'max:255',
                 'regex:/^[а-яА-ЯёЁ\s\-]+$/u',
-                'unique:bird_genera,title,' . $id,
+                'unique:bird_genera,title,' . $birdGenus->id,
             ],
             'title_latin' => [
                 'required',
@@ -112,7 +109,7 @@ class BirdGenusController extends Controller
                 'min:3',
                 'max:255',
                 'regex:/^[a-zA-Z\s]+$/u',
-                'unique:bird_genera,title_latin,' . $id,
+                'unique:bird_genera,title_latin,' . $birdGenus->id,
             ],
             'description' => 'nullable|string',
             'bird_family_id' => 'required|exists:bird_families,id',
@@ -135,10 +132,13 @@ class BirdGenusController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        $birdGenus = BirdGenus::findOrFail($id);
+    public function destroy(BirdGenus $birdGenus)
+    {;
         Gate::authorize('delete', $birdGenus);
-        $birdGenus->destroy();
+        $birdGenus->delete();
+
+        return response()->json([
+            'message' => 'Bird genus deleted successfully.'
+        ], 200);
     }
 }

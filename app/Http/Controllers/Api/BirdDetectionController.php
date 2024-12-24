@@ -35,7 +35,6 @@ class BirdDetectionController extends Controller
     public function store(Request $request)
     {
         Gate::authorize('create', BirdDetection::class);
-        $currentUser = $request->user('sanctum');
 
         $validated = $request->validate([
             'bird_species_id' => 'required|exists:bird_species,id',
@@ -56,7 +55,6 @@ class BirdDetectionController extends Controller
         ]);
 
         $birdDetection = BirdDetection::create([
-            'agent_id' => $currentUser->id,
             'bird_species_id' => $validated['bird_species_id'],
             'latitude' => $validated['latitude'],
             'longitude' => $validated['longitude'],
@@ -73,10 +71,8 @@ class BirdDetectionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(BirdDetection $birdDetection)
     {
-        $birdDetection = BirdDetection::findOrFail($id);
-
         return new BirdDetectionResource($birdDetection);
     }
 
@@ -91,9 +87,8 @@ class BirdDetectionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, BirdDetection $birdDetection)
     {
-        $birdDetection = BirdDetection::findOrFail($id);
         Gate::authorize('update', $birdDetection);
 
         $validated = $request->validate([
@@ -133,10 +128,13 @@ class BirdDetectionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(BirdDetection $birdDetection)
     {
-        $birdDetection = BirdDetection::findOrFail($id);
         Gate::authorize('delete', $birdDetection);
-        $birdDetection->destroy();
+        $birdDetection->delete();
+
+        return response()->json([
+            'message' => 'Bird detection deleted successfully.'
+        ], 200);
     }
 }
