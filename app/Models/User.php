@@ -10,6 +10,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * Класс модели пользователя.
+ */
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -51,16 +54,25 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Связь "Многие к одному" с моделью "BirdDetection" (фиксация птицы).
+     */
     public function birdDetections(): HasMany
     {
         return $this->hasMany(BirdDetection::class);
     }
 
+    /**
+     * Связь "Один ко многим" с моделью "User" (пользователь).
+     */
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Связь "Один ко многим" с моделью "UserRole" (роль пользователя).
+     */
     public function userRole(): BelongsTo
     {
         return $this->belongsTo(UserRole::class);

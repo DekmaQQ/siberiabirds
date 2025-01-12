@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\UserRoleController;
 use App\Http\Controllers\Api\AuthController;
 
+// endpoint to get bearer token
 Route::get('/login', [AuthController::class, 'login']);
 
 // endpoints of BirdDetection

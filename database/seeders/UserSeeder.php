@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'name' => 'Test Admin',
             'email' => 'admin@example.com',
             'password' => Hash::make('qwerty123'),
-            'creator_id' => 1,
+            'creator_id' => 1, // в качестве создателя для админа задаем его самого
             'user_role_id' => DB::table('user_roles')->where('title', 'admin')->value('id')
         ]);
 

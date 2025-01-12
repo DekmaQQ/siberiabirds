@@ -14,7 +14,8 @@ class UserPolicy
     {
         $userRole = $user->userRole->title;
 
-        return $userRole == 'admin' || $userRole == 'tutor';
+        // просматривать список пользователей могут только админ, куратор и агент
+        return $userRole == 'admin' || $userRole == 'tutor' || $userRole == 'agent';
     }
 
     /**
@@ -25,13 +26,17 @@ class UserPolicy
         $userRole = $user->userRole->title;
         $userId = $user->id;
         $modelId = $model->id;
-        $modelRole = $model->userRole->title;
+        $modelCreatorId = $model->creator_id;
+        // $modelRole = $model->userRole->title;
 
         if ($userRole == 'admin') {
+            // админ может просматривать любой аккаунт
             return true;
         } elseif ($userRole == 'tutor') {
-            return $modelRole != 'admin';
+            // куратор может просматривать свой аккаунт и аккаунты тех, кого он создал
+            return $userId == $modelId || $userId == $modelCreatorId;
         } else {
+            // все остальные роли могут просматривать только свои аккаунты
             return $userId == $modelId;
         }
     }
@@ -55,16 +60,12 @@ class UserPolicy
         $userId = $user->id;
         $modelRole = $model->userRole->title;
         $modelCreatorId = $user->creator_id;
-        $modelId = $model->id;
+        // $modelId = $model->id;
 
         if ($userRole == 'tutor') {
             return $userId == $modelCreatorId && $modelRole == 'agent';
         } elseif ($userRole == 'admin') {
-            if ($modelRole == 'admin') {
-                return $userId == $modelCreatorId || $userId == $modelId;
-            } else {
-                return $modelRole != 'agent';
-            }            
+            return $userId == $modelCreatorId && $modelRole != 'agent';          
         } else {
             return false;
         }
@@ -81,13 +82,9 @@ class UserPolicy
         $modelCreatorId = $model->creator_id;
 
         if ($userRole == 'tutor') {
-            return $userId = $modelCreatorId;
+            return $userId == $modelCreatorId && $modelRole == 'agent';
         } elseif ($userRole == 'admin') {
-            if ($modelRole == 'admin') {
-                return $userId == $modelCreatorId;
-            } else {
-                return true;
-            }
+            return $userId == $modelCreatorId && $modelRole != 'agent';
         } else {
             return false;
         }

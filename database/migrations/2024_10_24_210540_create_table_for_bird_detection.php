@@ -11,6 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
+        /**
+         * Таблица фиксаций птиц.
+         */
         Schema::create('bird_detections', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
@@ -20,12 +23,12 @@ return new class extends Migration
                   ->constrained();
             $table->decimal('latitude', 8, 6);
             $table->decimal('longitude', 9, 6);
-            $table->dateTime('detection_timestamp');
+            $table->dateTime('detection_datetime');
             $table->text('comment')
                   ->nullable(true);
             $table->boolean('confirmed')
                   ->default(false);
-            $table->unique(['bird_species_id', 'latitude', 'longitude', 'detection_timestamp'], 'bird_detection_unique');
+            $table->unique(['bird_species_id', 'latitude', 'longitude', 'detection_datetime'], 'bird_detection_unique');
         });
     }
 

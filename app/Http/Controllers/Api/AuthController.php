@@ -9,6 +9,9 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
+    /**
+     * Функция для аутентицикации пользователя. 
+     */
     public function login(Request $request)
     {
         $validated = $request->validate([
@@ -22,8 +25,9 @@ class AuthController extends Controller
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
-        // удаляем старые токены пользователя
+        // при успешной аутентификации, удаляем старые токены пользователя
         $user->tokens()->where('name', 'auth_token')->delete();
+        // создаём новый токен
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([

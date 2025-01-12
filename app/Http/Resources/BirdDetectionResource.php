@@ -22,7 +22,7 @@ class BirdDetectionResource extends JsonResource
             'bird_species' => new BirdSpeciesResource($this->birdSpecies),
             'latitude' => $this->latitude,
             'longtitude' => $this->longitude,
-            'detection_timestamp' => $this->detection_timestamp,
+            'detection_datetime' => $this->detection_datetime,
             'comment' => $this->comment,
             'confirmed' => $this->confirmed
         ];

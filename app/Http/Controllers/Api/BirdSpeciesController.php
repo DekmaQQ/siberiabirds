@@ -8,7 +8,7 @@ use App\Models\BirdSpecies;
 use App\Http\Resources\BirdSpeciesResource;
 use App\Support\StringHelper;
 use Illuminate\Support\Facades\Gate;
-#TODO: убирать лишние пробелы
+
 class BirdSpeciesController extends Controller
 {
     /**

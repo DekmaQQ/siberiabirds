@@ -28,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // привязка политик к моделям
         Gate::policy(BirdOrder::class, MainPolicy::class);
         Gate::policy(BirdFamily::class, MainPolicy::class);
         Gate::policy(BirdGenus::class, MainPolicy::class);

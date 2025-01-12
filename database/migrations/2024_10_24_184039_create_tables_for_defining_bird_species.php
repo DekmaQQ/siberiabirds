@@ -11,19 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
+        /**
+         * Таблица статусов видов птиц.
+         */
         Schema::create('species_statuses', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->char('title', 255)
+            $table->string('title', 255)
                   ->unique();
             $table->text('description')
                   ->nullable(true);
         });
 
+        /**
+         * Таблица статусов популяции видов птиц.
+         */
         Schema::create('species_population_statuses', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->char('title', 255)
+            $table->string('title', 255)
                   ->unique();
             $table->text('description')
                   ->nullable(true);

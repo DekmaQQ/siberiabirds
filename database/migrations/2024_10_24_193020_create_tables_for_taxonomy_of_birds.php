@@ -11,23 +11,29 @@ return new class extends Migration
      */
     public function up(): void
     {
+        /**
+         * Таблица отрядов птиц.
+         */
         Schema::create('bird_orders', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->char('title', 255)
+            $table->string('title', 255)
                   ->unique();
-            $table->char('title_latin', 255)
+            $table->string('title_latin', 255)
                   ->unique();
             $table->text('description')
                   ->nullable(true);
         });
 
+        /**
+         * Таблица семейств птиц.
+         */
         Schema::create('bird_families', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->char('title', 255)
+            $table->string('title', 255)
                   ->unique();
-            $table->char('title_latin', 255)
+            $table->string('title_latin', 255)
                   ->unique();
             $table->text('description')
                   ->nullable(true);
@@ -35,12 +41,15 @@ return new class extends Migration
                   ->constrained();
         });
 
+        /**
+         * Таблица родов птиц.
+         */
         Schema::create('bird_genera', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->char('title', 255)
+            $table->string('title', 255)
                   ->unique();
-            $table->char('title_latin', 255)
+            $table->string('title_latin', 255)
                   ->unique();
             $table->text('description')
                   ->nullable(true);
@@ -48,12 +57,15 @@ return new class extends Migration
                   ->constrained();
         });
 
+        /**
+         * Таблица видов птиц.
+         */
         Schema::create('bird_species', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->char('title', 255)
+            $table->string('title', 255)
                   ->unique();
-            $table->char('title_latin', 255)
+            $table->string('title_latin', 255)
                   ->unique();
             $table->text('description')
                   ->nullable(true);
@@ -71,6 +83,9 @@ return new class extends Migration
                   ->nullOnDelete();
         });
 
+        /**
+         * Таблица пересечения 'bird_species' и 'species_statuses'.
+         */
         Schema::create('bird_species_species_status', function (Blueprint $table) {
             $table->timestamps();
             $table->foreignId('bird_species_id')

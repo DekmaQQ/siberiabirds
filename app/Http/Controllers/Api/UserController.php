@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserRole;
 use App\Http\Resources\UserResource;
+use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Gate;
 
@@ -15,11 +16,24 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         Gate::authorize('viewAny', User::class);
 
-        $users = User::all();
+        $currentUser = $request->user('sanctum');
+        $currentUserId = $currentUser->id;
+        $currentUserRole = $currentUser->userRole->title;
+
+        if ($currentUserRole == 'admin') {
+            // админ может просматривать всех пользователей
+            $users = User::all();
+        } elseif ($currentUserRole == 'tutor') {
+            // куратор может просматривать свой аккаунт и аккаунты тех, кого он создал
+            $users = User::where('id', $currentUserId)->orWhere('creator_id', $currentUserId)->get();
+        } elseif ($currentUserRole == 'agent') {
+            // агенты могут видеть твой свой аккаунт
+            $users = User::where('id', $currentUserId)->get();
+        }
 
         return UserResource::collection($users);
     }
@@ -115,6 +129,7 @@ class UserController extends Controller
         $currentUser = $request->user('sanctum');
         $currentUserRole = $currentUser->userRole->title;
 
+        // если пользователь пытаеся поменять роль другому пользователю
         if ($request->has('user_role_id')) {
             if ($currentUserRole === 'admin') {
                 $role = UserRole::find($request->user_role_id);

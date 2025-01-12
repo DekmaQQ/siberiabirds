@@ -39,9 +39,12 @@ class BirdDetectionPolicy
     {
         $userId = $user->id;
         $userRole = $user->userRole->title;
-        $creatorIdOfUserThatCreatedDetection = $birdDetection->agent->creator->id;
+        $creatorId = $birdDetection->agent->id;
+        $creatorIdOfUserThatCreatedDetection = $birdDetection->agent->creator_id;
 
-        return $userRole == 'tutor' && $userId == $creatorIdOfUserThatCreatedDetection;
+        // редактировать запись может только куратор, который является создателем агента, который создал запись
+        // или же сам агент, создавший запись
+        return ($userRole == 'tutor' && $userId == $creatorIdOfUserThatCreatedDetection) || ($userRole == 'agent' && $userId == $creatorId);
     }
 
     /**
@@ -51,9 +54,12 @@ class BirdDetectionPolicy
     {
         $userId = $user->id;
         $userRole = $user->userRole->title;
-        $creatorIdOfUserThatCreatedDetection = $birdDetection->agent->creator->id;
+        $creatorId = $birdDetection->agent->id;
+        $creatorIdOfUserThatCreatedDetection = $birdDetection->agent->creator_id;
 
-        return $userRole == 'tutor' && $userId == $creatorIdOfUserThatCreatedDetection;
+        // удалять запись может только куратор, который является создателем агента, который создал запись
+        // или же сам агент, создавший запись
+        return ($userRole == 'tutor' && $userId == $creatorIdOfUserThatCreatedDetection) || ($userRole == 'agent' && $userId == $creatorId);
     }
 
     /**

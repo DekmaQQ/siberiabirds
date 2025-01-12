@@ -40,7 +40,7 @@ class BirdDetectionController extends Controller
             'bird_species_id' => 'required|exists:bird_species,id',
             'latitude' => 'required|numeric|between:-90,90',
             'longitude' => 'required|numeric|between:-180,180',
-            'detection_timestamp' => [
+            'detection_datetime' => [
                 'required',
                 'date',
                 Rule::unique('bird_detections')->where(function ($query) use ($request) {
@@ -51,14 +51,14 @@ class BirdDetectionController extends Controller
             ],
             'comment' => 'nullable|string',
         ], [
-            'detection_timestamp.unique' => 'The detection for this bird species at the given location and time already exists.',
+            'detection_datetime.unique' => 'The detection for this bird species at the given location and time already exists.',
         ]);
 
         $birdDetection = BirdDetection::create([
             'bird_species_id' => $validated['bird_species_id'],
             'latitude' => $validated['latitude'],
             'longitude' => $validated['longitude'],
-            'detection_timestamp' => $validated['detection_timestamp'],
+            'detection_datetime' => $validated['detection_datetime'],
             'comment' => $validated['comment'],
         ]);
 
@@ -95,7 +95,7 @@ class BirdDetectionController extends Controller
             'bird_species_id' => 'required|exists:bird_species,id',
             'latitude' => 'required|numeric|between:-90,90',
             'longitude' => 'required|numeric|between:-180,180',
-            'detection_timestamp' => [
+            'detection_datetime' => [
                 'required',
                 'date',
                 Rule::unique('bird_detections')->where(function ($query) use ($request) {
@@ -107,14 +107,14 @@ class BirdDetectionController extends Controller
             'comment' => 'nullable|string',
             'confirmed' => 'nullable|boolean'
         ], [
-            'detection_timestamp.unique' => 'The detection for this bird species at the given location and time already exists.',
+            'detection_datetime.unique' => 'The detection for this bird species at the given location and time already exists.',
         ]);
 
         $birdDetection->update([
             'bird_species_id' => $validated['bird_species_id'],
             'latitude' => $validated['latitude'],
             'longitude' => $validated['longitude'],
-            'detection_timestamp' => $validated['detection_timestamp'],
+            'detection_datetime' => $validated['detection_datetime'],
             'comment' => $validated['comment'],
             'confirmed' => $validated['confirmed'] ?? $birdDetection->confirmed, // Сохраняем прежнее значение, если не передано новое
         ]);
