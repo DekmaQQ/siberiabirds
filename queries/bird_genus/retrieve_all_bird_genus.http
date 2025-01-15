@@ -1,0 +1,2 @@
+GET http://siberiabirds.local/api/bird-genera HTTP/1.1
+Accept: application/json

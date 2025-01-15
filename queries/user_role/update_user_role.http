@@ -1,0 +1,8 @@
+PUT http://siberiabirds.local/api/user-roles/edit/4 HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer 1|flQPJBucz315KWjP4cAw6q0W30lTjpUAuzdKujfM86de74c4
+
+{
+    "title": "Updated role"
+}

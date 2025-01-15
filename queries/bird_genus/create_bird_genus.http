@@ -1,0 +1,11 @@
+POST http://siberiabirds.local/api/bird-genera/add HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: 1|flQPJBucz315KWjP4cAw6q0W30lTjpUAuzdKujfM86de74c4
+
+{
+    "title": "Апторнис",
+    "title_latin": "Aptornis",
+    "description": "Апторнис (лат. Aptornis) — род вымерших птиц отряда журавлеобразных. Крупные наземные птицы высотой около 80 см и массой до 25 кг обитали на островах Новой Зеландии с раннего миоцена до XIII века.",
+    "bird_family_id": 1
+}

@@ -13,7 +13,9 @@ class UserRolePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->userRole->title == 'admin';
+        $userRole = $user->userRole->title;
+
+        return $userRole == 'admin' || $userRole == 'tutor';
     }
 
     /**
@@ -21,7 +23,9 @@ class UserRolePolicy
      */
     public function view(User $user, UserRole $userRole): bool
     {
-        return $user->userRole->title == 'admin';
+        $userRole = $user->userRole->title;
+
+        return $userRole == 'admin' || $userRole == 'tutor';
     }
 
     /**

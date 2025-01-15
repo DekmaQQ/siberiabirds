@@ -1,0 +1,10 @@
+POST http://siberiabirds.local/api/bird-orders/add HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer 1|flQPJBucz315KWjP4cAw6q0W30lTjpUAuzdKujfM86de74c4
+
+{
+    "title": "Совообразные",
+    "title_latin": "Strigiformes",
+    "description": "Совообра́зные (лат. Strigiformes) — отряд, включающий более 200 видов птиц преимущественно средней величины (от мелких до крупных), распространённых во всех частях света, кроме Антарктики и некоторых островов. В отряде два современных семейства: совиные, или настоящие совы, а также сипуховые."
+}

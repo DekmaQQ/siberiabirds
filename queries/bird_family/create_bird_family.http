@@ -1,0 +1,11 @@
+POST http://siberiabirds.local/api/bird-families/add HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: 1|flQPJBucz315KWjP4cAw6q0W30lTjpUAuzdKujfM86de74c4
+
+{
+    "title": "Качурки",
+    "title_latin": "Hydrobatidae",
+    "description": "Небольшие, меньше голубя (размах крыльев около 40 см), морские птицы, в полёте несколько напоминающие ласточек.",
+    "bird_order_id": 1
+}

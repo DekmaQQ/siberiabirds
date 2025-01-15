@@ -1,0 +1,10 @@
+PUT http://siberiabirds.local/api/users/edit/4
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer 1|flQPJBucz315KWjP4cAw6q0W30lTjpUAuzdKujfM86de74c4
+
+{
+    "name": "Updated Name",
+    "email": "updated_email@example.com",
+    "user_role_id": 2
+}

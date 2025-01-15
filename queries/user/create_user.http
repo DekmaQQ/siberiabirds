@@ -1,0 +1,11 @@
+POST http://siberiabirds.local/api/users/add HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer 1|flQPJBucz315KWjP4cAw6q0W30lTjpUAuzdKujfM86de74c4
+
+{
+    "name": "Test User",
+    "email": "test@example.com",
+    "password": "qwerty123",
+    "user_role_id": 2
+}

@@ -1,0 +1,10 @@
+PUT http://siberiabirds.local/api/bird-orders/edit/3 HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer 1|flQPJBucz315KWjP4cAw6q0W30lTjpUAuzdKujfM86de74c4
+
+{
+    "title": "Аистообразные",
+    "title_latin": "Ciconiiformes",
+    "description": "Аистообра́зные, или голена́стые (лат. Ciconiiformes); в старом, нетипифицированном латинском написании научных названий — Gressores и Grallatores), — отряд новонёбных птиц, охватывающий по разным классификациям одно или несколько семейств."
+}

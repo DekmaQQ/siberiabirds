@@ -1,0 +1,10 @@
+PUT http://siberiabirds.local/api/bird-genera/edit/3 HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer 1|flQPJBucz315KWjP4cAw6q0W30lTjpUAuzdKujfM86de74c4
+{
+    "title": "Белолобики",
+    "title_latin": "Aphelocephala",
+    "description": "Белолобики (лат. Aphelocephala) — род птиц из семейства шипоклювковых[1]. Все виды — эндемики Австралии.",
+    "bird_family_id": 1
+}

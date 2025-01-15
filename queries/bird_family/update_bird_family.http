@@ -1,0 +1,11 @@
+PUT http://siberiabirds.local/api/bird-families/edit/3 HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer 1|flQPJBucz315KWjP4cAw6q0W30lTjpUAuzdKujfM86de74c4
+
+{
+    "title": "Кариамовые",
+    "title_latin": "Cariamidae",
+    "description": "Наземные бегающие птицы 70—92 см длиной. Тело удлинённое, с длинной шеей и маленькой головой.",
+    "bird_order_id": 1
+}

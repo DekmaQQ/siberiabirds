@@ -1,0 +1,12 @@
+POST http://siberiabirds.local/api/bird-detections/add HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer 3|zTPDSpVP6Bduv5NdxqMZOnH6cgm2AmmSXUWZy3a180a7a48f
+
+{
+    "bird_species_id": 1,
+    "latitude": 51.5075,
+    "longitude": -0.1280,
+    "detection_datetime": "2024-12-24 12:30:00",
+    "comment": "Повреждено оперение"
+}

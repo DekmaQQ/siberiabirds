@@ -1,0 +1,12 @@
+PUT http://siberiabirds.local/api/bird-detections/edit/3 HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer 3|zTPDSpVP6Bduv5NdxqMZOnH6cgm2AmmSXUWZy3a180a7a48f
+
+{
+    "bird_species_id": 3,
+    "latitude": 51.5075,
+    "longitude": 10.1280,
+    "detection_datetime": "2024-12-24 12:30:00",
+    "comment": "Поблизости гнездо"
+}

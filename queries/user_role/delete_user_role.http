@@ -1,0 +1,3 @@
+DELETE http://siberiabirds.local/api/user-roles/delete/4 HTTP/1.1
+Accept: application/json
+Authorization: Bearer 1|flQPJBucz315KWjP4cAw6q0W30lTjpUAuzdKujfM86de74c4

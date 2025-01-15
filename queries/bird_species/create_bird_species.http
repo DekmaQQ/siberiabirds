@@ -1,0 +1,15 @@
+POST http://siberiabirds.local/api/bird-species/add HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer 1|flQPJBucz315KWjP4cAw6q0W30lTjpUAuzdKujfM86de74c4
+
+{
+    "title_latin": "Turdus philomelos",
+    "description": "Длина его тела — 210—250 мм, крыло — 113—122 мм, размах крыльев — 340—390 мм, масса — 55—100 г.",
+    "distribution": "Европа, Малая Азия и Сибирь",
+    "migration": "перелётный",
+    "habitat": "Певчий дрозд заселяет различные типы лесов, и одинаково многочислен и в лиственных лесах, и в тайге.",
+    "bird_genus_id": 1,
+    "species_population_status_id": 2,
+    "species_status_ids": [1, 2, 3]
+}

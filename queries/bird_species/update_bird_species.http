@@ -1,0 +1,16 @@
+PUT http://siberiabirds.local/api/bird-species/edit/11 HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer 1|flQPJBucz315KWjP4cAw6q0W30lTjpUAuzdKujfM86de74c4
+
+{
+    "title": "Обыкновенный дрозд",
+    "title_latin": "Turdus turdus",
+    "description": "Дрозд семейства певчих.",
+    "distribution": "Европа.",
+    "migration": "Оседлый.",
+    "habitat": "Леса.",
+    "bird_genus_id": 1,
+    "species_population_status_id": 3,
+    "species_status_ids": [1, 3, 5]
+}
