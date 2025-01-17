@@ -54,7 +54,11 @@ class BirdDetectionController extends Controller
             'detection_datetime.unique' => 'The detection for this bird species at the given location and time already exists.',
         ]);
 
+        $currentUser = $request->user('sanctum');
+        $currentUserId = $currentUser->id;
+
         $birdDetection = BirdDetection::create([
+            'agent_id' => $currentUserId,
             'bird_species_id' => $validated['bird_species_id'],
             'latitude' => $validated['latitude'],
             'longitude' => $validated['longitude'],
@@ -98,7 +102,9 @@ class BirdDetectionController extends Controller
             'detection_datetime' => [
                 'required',
                 'date',
-                Rule::unique('bird_detections')->where(function ($query) use ($request) {
+                Rule::unique('bird_detections')
+                    ->ignore($birdDetection->id) // исключаем саму запись из проверки
+                    ->where(function ($query) use ($request) {
                     return $query->where('bird_species_id', $request->bird_species_id)
                                  ->where('latitude', $request->latitude)
                                  ->where('longitude', $request->longitude);
@@ -110,13 +116,21 @@ class BirdDetectionController extends Controller
             'detection_datetime.unique' => 'The detection for this bird species at the given location and time already exists.',
         ]);
 
+        $currentUser = $request->user('sanctum');
+        $currentUserRole = $currentUser->userRole->title;
+
+        if ($currentUserRole != 'tutor') {
+            // Убираем поле confirmed, если пользователь не куратор, т.к. подтверждать фиксации может только он
+            unset($validated['confirmed']);
+        }
+
         $birdDetection->update([
             'bird_species_id' => $validated['bird_species_id'],
             'latitude' => $validated['latitude'],
             'longitude' => $validated['longitude'],
             'detection_datetime' => $validated['detection_datetime'],
             'comment' => $validated['comment'],
-            'confirmed' => $validated['confirmed'] ?? $birdDetection->confirmed, // Сохраняем прежнее значение, если не передано новое
+            'confirmed' => $validated['confirmed'] ?? $birdDetection->confirmed,
         ]);
 
         return response()->json([

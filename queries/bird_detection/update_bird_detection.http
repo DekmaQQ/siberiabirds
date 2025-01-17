@@ -1,7 +1,7 @@
 PUT http://siberiabirds.local/api/bird-detections/edit/3 HTTP/1.1
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer 3|zTPDSpVP6Bduv5NdxqMZOnH6cgm2AmmSXUWZy3a180a7a48f
+Authorization: Bearer 3|9NttsYHeU2ANFprSEyMcnPkC6gBoOocJktPT4G4z305ea843
 
 {
     "bird_species_id": 3,

@@ -1,7 +1,7 @@
 POST http://siberiabirds.local/api/bird-orders/add HTTP/1.1
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer 1|flQPJBucz315KWjP4cAw6q0W30lTjpUAuzdKujfM86de74c4
+Authorization: Bearer 1|UX8uap8TIeT8AwePvSqFqtWv4ycvdllECr6CFcvz8ed33903
 
 {
     "title": "Совообразные",

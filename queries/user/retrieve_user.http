@@ -1,3 +1,3 @@
 GET http://siberiabirds.local/api/users/1 HTTP/1.1
 Accept: application/json
-Authorization: Bearer 1|flQPJBucz315KWjP4cAw6q0W30lTjpUAuzdKujfM86de74c4
+Authorization: Bearer 1|UX8uap8TIeT8AwePvSqFqtWv4ycvdllECr6CFcvz8ed33903
