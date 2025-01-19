@@ -133,8 +133,15 @@ class BirdGenusController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(BirdGenus $birdGenus)
-    {;
+    {
         Gate::authorize('delete', $birdGenus);
+
+        if ($birdGenus->birdSpecies()->exists()) {
+            return response()->json([
+                'message' => 'Bird genus cannot be deleted because it has related bird species.'
+            ], 422);
+        }
+
         $birdGenus->delete();
 
         return response()->json([

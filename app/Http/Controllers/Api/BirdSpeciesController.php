@@ -173,6 +173,14 @@ class BirdSpeciesController extends Controller
     public function destroy(BirdSpecies $birdSpecies)
     {
         Gate::authorize('delete', $birdSpecies);
+
+        // Check for related records
+        if ($birdSpecies->birdDetections()->exists()) {
+            return response()->json([
+                'message' => 'Bird species cannot be deleted because it has related bird detections.'
+            ], 422);
+        }
+
         $birdSpecies->delete();
 
         return response()->json([

@@ -161,6 +161,18 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         Gate::authorize('delete', $user);
+
+        // Check for related records
+        if ($user->birdDetections()->exists()) {
+            return response()->json([
+                'message' => 'User cannot be deleted because it has related bird detections.'
+            ], 422);
+        } elseif ($user->createdUsers()->exists()) {
+            return response()->json([
+                'message' => 'User cannot be deleted because it has related created users.'
+            ], 422);
+        }
+
         $user->delete();
 
         return response()->json([

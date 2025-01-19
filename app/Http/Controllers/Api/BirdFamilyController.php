@@ -135,6 +135,14 @@ class BirdFamilyController extends Controller
     public function destroy(BirdFamily $birdFamily)
     {
         Gate::authorize('delete', $birdFamily);
+
+        // Check for related records
+        if ($birdFamily->birdGenera()->exists()) {
+            return response()->json([
+                'message' => 'Cannot delete bird family with related genera records.'
+            ], 422);
+        }
+
         $birdFamily->delete();
 
         return response()->json([

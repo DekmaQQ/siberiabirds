@@ -59,7 +59,7 @@ class User extends Authenticatable
      */
     public function birdDetections(): HasMany
     {
-        return $this->hasMany(BirdDetection::class);
+        return $this->hasMany(BirdDetection::class, 'agent_id');
     }
 
     /**
@@ -67,7 +67,15 @@ class User extends Authenticatable
      */
     public function creator(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    /**
+     * Связь "Один ко многим" с моделью "User" (пользователь).
+     */
+    public function createdUsers(): HasMany
+    {
+        return $this->hasMany(User::class, 'creator_id');
     }
 
     /**

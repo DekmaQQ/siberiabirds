@@ -133,6 +133,14 @@ class BirdOrderController extends Controller
     public function destroy(BirdOrder $birdOrder)
     {
         Gate::authorize('delete', $birdOrder);
+
+        // Check for related records
+        if ($birdOrder->birdFamilies()->exists()) {
+            return response()->json([
+                'message' => 'Cannot delete bird order because it has related families.'
+            ], 422);
+        }
+
         $birdOrder->delete();
 
         return response()->json([

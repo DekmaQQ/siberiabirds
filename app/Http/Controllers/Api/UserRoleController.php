@@ -100,6 +100,14 @@ class UserRoleController extends Controller
     public function destroy(UserRole $userRole)
     {
         Gate::authorize('delete', $userRole);
+
+        // Check for related records
+        if ($userRole->users()->exists()) {
+            return response()->json([
+                'message' => 'User role cannot be deleted because it has related users.'
+            ], 422);
+        }
+
         $userRole->delete();
 
         return response()->json([
